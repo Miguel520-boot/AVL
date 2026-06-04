@@ -1,0 +1,71 @@
+/* ── Nodo nuevo ── */
+.nodo-nuevo circle {
+    stroke: #26A69A !important;
+    stroke-width: 2.5 !important;
+    fill: #0d3331 !important;
+    animation: pulsoNuevo 0.4s ease infinite alternate;
+}
+
+@keyframes pulsoNuevo {
+    from { stroke-width: 2px;  fill: #0d3331; }
+    to   { stroke-width: 3.5px; fill: #1a4f4b; }
+}
+
+/* ── Nodo en rotación ── */
+.nodo-rotacion circle {
+    stroke: #E53935 !important;
+    stroke-width: 2.5 !important;
+    fill: #3b0d0d !important;
+    animation: pulsoRotacion 0.3s ease infinite alternate;
+}
+
+@keyframes pulsoRotacion {
+    from { stroke-width: 2px;  fill: #3b0d0d; }
+    to   { stroke-width: 3.5px; fill: #5c1a1a; }
+}
+
+/* ── Nodo en recorrido ── */
+.nodo-recorrido circle {
+    stroke: #FFD600 !important;
+    stroke-width: 2.5 !important;
+    fill: #3b3000 !important;
+    animation: pulsoRecorrido 0.2s ease infinite alternate;
+}
+
+@keyframes pulsoRecorrido {
+    from { stroke-width: 2px;  fill: #3b3000; }
+    to   { stroke-width: 3.5px; fill: #5c4a00; }
+}
+
+/* ── Label de rotación ── */
+#anim-label {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(229, 57, 53, 0.15);
+    border: 1px solid #E53935;
+    color: #E53935;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 4px 14px;
+    border-radius: 20px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+}
+
+#anim-label.visible {
+    opacity: 1;
+}
+
+/* ── Entrada del nodo ── */
+.nodo {
+    animation: entradaNodo 0.3s ease both;
+}
+
+@keyframes entradaNodo {
+    from { opacity: 0; transform: scale(0.5); }
+    to   { opacity: 1; transform: scale(1); }
+}

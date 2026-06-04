@@ -1,0 +1,60 @@
+#tree-canvas {
+    background-color: #1a2333;
+    border: 1px solid #00BCD4;
+    border-radius: 8px;
+    overflow: auto;
+    padding: 1rem;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#empty-msg {
+    color: #8B949E;
+    font-family: 'DM Sans', Helvetica, sans-serif;
+    font-size: 0.9rem;
+    margin: auto;
+}
+
+.arista {
+    stroke: #2a4a6b;
+    stroke-width: 1.2;
+    fill: none;
+}
+
+.nodo circle {
+    fill: #162940;
+    stroke: #00BCD4;
+    stroke-width: 1.2;
+    transition: fill 0.2s ease, stroke-width 0.2s ease;
+}
+
+.nodo:hover circle {
+    fill: #1e3a5f;
+    stroke-width: 2;
+}
+
+.nodo text {
+    font-family: 'DM Sans', Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    fill: #E6EDF3;
+    pointer-events: none;
+}
+
+.info-bar {
+    font-family: 'DM Sans', Helvetica, sans-serif;
+    font-size: 0.8rem;
+    color: #8B949E;
+    margin-top: 10px;
+    display: flex;
+    gap: 16px;
+}
+
+.info-bar b {
+    color: #00BCD4;
+    font-weight: 500;
+}

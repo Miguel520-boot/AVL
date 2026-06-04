@@ -36,33 +36,63 @@ class AVL {
         this.raiz = null;
     }
 
-    agregarNodo() {
 
-        let dato = parseInt(
-            document.getElementById("numero").value
-        );
+     insertar(nodoActual, nuevoNodo) {
 
-        let nuevoNodo = new Nodo(dato);
+    // IZQUIERDA
+    if(nuevoNodo.valor < nodoActual.valor) {
 
-     
-        if(this.raiz == null) {
+        if(nodoActual.Izquierdo == null) {
 
-            this.raiz = nuevoNodo;
+            nodoActual.Izquierdo = nuevoNodo;
         }
         else {
 
-            if(dato > this.raiz.valor) {
-
-                this.raiz.setDerecha(nuevoNodo);
-            }
-            else {
-
-                this.raiz.setIzquierda(nuevoNodo);
-            }
+            this.insertar(
+                nodoActual.Izquierdo,
+                nuevoNodo
+            );
         }
-
-        console.log(this.raiz);
     }
+
+    // DERECHA
+    else {
+
+        if(nodoActual.Derecho == null) {
+
+            nodoActual.Derecho = nuevoNodo;
+        }
+        else {
+
+            this.insertar(
+                nodoActual.Derecho,
+                nuevoNodo
+            );
+        }
+    }
+}
+
+agregarNodo() {
+
+    let dato = parseInt(
+        document.getElementById("numero").value
+    );
+
+    if (isNaN(dato)) {
+        alert("Por favor ingresa un número válido.");
+        return;
+    }
+
+    if (this.raiz == null)
+        this.raiz = new Nodo(dato);
+    else
+        this.raiz = this.insertar(this.raiz, dato);
+
+    document.getElementById("numero").value = "";
+    renderTree();
+    encolar('insertar', { valor: dato }); 
+    ejecutarCola(); 
+}
 }
 
 const arbol = new AVL();
