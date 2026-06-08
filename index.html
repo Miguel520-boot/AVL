@@ -13,10 +13,34 @@
     <article>
         <section>
             <h1>BalanceTree</h1>
-            <input type="number" id="numero">
-            <button onclick="arbol.agregarNodo()">
-                Insertar
-            </button>
+            <div class="control-group">
+                <input type="number" id="numero" placeholder="Número a insertar">
+                <button onclick="arbol.agregarNodo()">Insertar</button>
+            </div>
+
+            <div class="control-group">
+                <button onclick="ejecutarRecorrido('inorden')">Inorden</button>
+                <button onclick="ejecutarRecorrido('preorden')">Preorden</button>
+                <button onclick="ejecutarRecorrido('postorden')">Postorden</button>
+            </div>
+
+            <div class="recorridos-panel">
+                <h2>Recorridos</h2>
+                <div class="recorrido-result">
+                    <span id="recorrido-result">—</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <input type="number" id="numero-eliminar" placeholder="Número a eliminar">
+                <button onclick="arbol.eliminarNodo()">Eliminar</button>
+            </div>
+
+            <div class="speed-control">
+                <label for="speed-slider">Velocidad:</label>
+                <input type="range" id="speed-slider" min="0.25" max="2" step="0.25" value="1">
+                <span id="speed-value">1.0x</span>
+            </div>
 
             <div class="info-bar">
                 <span>Nodos: <b id="count">0</b></span>

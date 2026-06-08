@@ -36,43 +36,9 @@ class AVL {
         this.raiz = null;
     }
 
+    async agregarNodo() {
 
-     insertar(nodoActual, nuevoNodo) {
-
-    // IZQUIERDA
-    if(nuevoNodo.valor < nodoActual.valor) {
-
-        if(nodoActual.Izquierdo == null) {
-
-            nodoActual.Izquierdo = nuevoNodo;
-        }
-        else {
-
-            this.insertar(
-                nodoActual.Izquierdo,
-                nuevoNodo
-            );
-        }
-    }
-
-    // DERECHA
-    else {
-
-        if(nodoActual.Derecho == null) {
-
-            nodoActual.Derecho = nuevoNodo;
-        }
-        else {
-
-            this.insertar(
-                nodoActual.Derecho,
-                nuevoNodo
-            );
-        }
-    }
-}
-
-agregarNodo() {
+    if (isAnimating) return;
 
     let dato = parseInt(
         document.getElementById("numero").value
@@ -83,6 +49,18 @@ agregarNodo() {
         return;
     }
 
+    disableControls();
+    if (this.raiz && this.buscar(this.raiz, dato)) {
+        await animarBusqueda(dato, 'Buscando');
+        alert('El valor ya existe en el árbol.');
+        enableControls();
+        return;
+    }
+
+    if (this.raiz) {
+        await animarBusqueda(dato, 'Insertando');
+    }
+
     if (this.raiz == null)
         this.raiz = new Nodo(dato);
     else
@@ -90,8 +68,46 @@ agregarNodo() {
 
     document.getElementById("numero").value = "";
     renderTree();
-    encolar('insertar', { valor: dato }); 
-    ejecutarCola(); 
+    encolar('insertar', { valor: dato });
+    await ejecutarCola();
+}
+
+buscar(nodo, valor) {
+    if (!nodo) return false;
+    if (valor === nodo.valor) return true;
+    return valor < nodo.valor
+        ? this.buscar(nodo.Izquierdo, valor)
+        : this.buscar(nodo.Derecho, valor);
+}
+
+async eliminarNodo() {
+    const dato = parseInt(
+        document.getElementById('numero-eliminar').value
+    );
+
+    if (isNaN(dato)) {
+        alert('Por favor ingresa un número válido para eliminar.');
+        return;
+    }
+
+    if (!this.raiz) {
+        alert('El árbol está vacío.');
+        return;
+    }
+
+    if (!this.buscar(this.raiz, dato)) {
+        alert('No existe ese nodo en el árbol.');
+        return;
+    }
+
+    disableControls();
+    await animarBusqueda(dato, 'Eliminando');
+
+    this.raiz = this.eliminar(this.raiz, dato);
+    document.getElementById('numero-eliminar').value = '';
+    renderTree();
+    encolar('eliminar', { valor: dato });
+    await ejecutarCola();
 }
 }
 

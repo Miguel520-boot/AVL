@@ -1,8 +1,40 @@
-const ANIM_DURATION = 400;
+const BASE_ANIM_DURATION = 400;
+let ANIM_DURATION = BASE_ANIM_DURATION;
 let animQueue = [];
 let isAnimating = false;
+let currentSpeed = 1;
 
-// ── Cola de animaciones ──────────────────────────────────
+function setSpeed(value) {
+    currentSpeed = value;
+    ANIM_DURATION = BASE_ANIM_DURATION / Math.max(value, 0.25);
+    const speedValue = document.getElementById('speed-value');
+    if (speedValue) speedValue.textContent = `${value.toFixed(2)}x`;
+}
+
+const speedSlider = document.getElementById('speed-slider');
+if (speedSlider) {
+    speedSlider.addEventListener('input', e => {
+        setSpeed(parseFloat(e.target.value));
+    });
+}
+
+setSpeed(1);
+
+function disableControls() {
+    document.querySelectorAll('.control-group button, #numero, #numero-eliminar').forEach(el => {
+        if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
+            el.disabled = true;
+        }
+    });
+}
+
+function enableControls() {
+    document.querySelectorAll('.control-group button, #numero, #numero-eliminar').forEach(el => {
+        if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
+            el.disabled = false;
+        }
+    });
+}
 
 function encolar(tipo, datos) {
     animQueue.push({ tipo, datos });
@@ -11,6 +43,7 @@ function encolar(tipo, datos) {
 async function ejecutarCola() {
     if (isAnimating) return;
     isAnimating = true;
+    disableControls();
 
     while (animQueue.length > 0) {
         const { tipo, datos } = animQueue.shift();
@@ -18,59 +51,57 @@ async function ejecutarCola() {
     }
 
     isAnimating = false;
+    enableControls();
 }
 
 async function ejecutarAnimacion(tipo, datos) {
-    return new Promise(resolve => {
-        switch(tipo) {
-            case 'insertar':   animInsertar(datos, resolve);   break;
-            case 'rotacion':   animRotacion(datos, resolve);   break;
-            case 'recorrido':  animRecorrido(datos, resolve);  break;
-            default: resolve();
-        }
-    });
+    switch(tipo) {
+        case 'insertar':   await animInsertar(datos);   break;
+        case 'rotacion':   await animRotacion(datos);   break;
+        case 'recorrido':  await animRecorrido(datos);  break;
+        case 'eliminar':   await animEliminar(datos);   break;
+        default: break;
+    }
 }
 
-// ── Animación: nodo nuevo ────────────────────────────────
+async function highlightSequence(valores, clase, label) {
+    if (label) mostrarLabel(label);
+    for (const valor of valores) {
+        resaltarNodo(valor, clase);
+        await esperar(ANIM_DURATION);
+        quitarResaltado(valor, clase);
+        await esperar(Math.max(ANIM_DURATION / 4, 75));
+    }
+    if (label) ocultarLabel();
+}
 
-function animInsertar(datos, resolve) {
+async function animInsertar(datos) {
     const { valor } = datos;
     resaltarNodo(valor, 'nodo-nuevo');
-    setTimeout(() => {
-        quitarResaltado(valor, 'nodo-nuevo');
-        resolve();
-    }, ANIM_DURATION * 2);
+    await esperar(ANIM_DURATION * 2);
+    quitarResaltado(valor, 'nodo-nuevo');
 }
 
-// ── Animación: rotación ──────────────────────────────────
+async function animEliminar(datos) {
+    const { valor } = datos;
+    resaltarNodo(valor, 'nodo-eliminar');
+    await esperar(ANIM_DURATION * 2);
+    quitarResaltado(valor, 'nodo-eliminar');
+}
 
-function animRotacion(datos, resolve) {
+async function animRotacion(datos) {
     const { nodos, tipo } = datos;
 
     mostrarLabel(`Rotación ${tipo}`);
-
     nodos.forEach(v => resaltarNodo(v, 'nodo-rotacion'));
-
-    setTimeout(() => {
-        nodos.forEach(v => quitarResaltado(v, 'nodo-rotacion'));
-        ocultarLabel();
-        resolve();
-    }, ANIM_DURATION * 3);
+    await esperar(ANIM_DURATION * 3);
+    nodos.forEach(v => quitarResaltado(v, 'nodo-rotacion'));
+    ocultarLabel();
 }
 
-// ── Animación: recorrido ─────────────────────────────────
-
-async function animRecorrido(datos, resolve) {
+async function animRecorrido(datos) {
     const { orden } = datos;
-
-    for (let i = 0; i < orden.length; i++) {
-        resaltarNodo(orden[i], 'nodo-recorrido');
-        await esperar(ANIM_DURATION);
-        quitarResaltado(orden[i], 'nodo-recorrido');
-        await esperar(100);
-    }
-
-    resolve();
+    await highlightSequence(orden, 'nodo-recorrido', 'Recorrido');
 }
 
 // ── Helpers ──────────────────────────────────────────────
@@ -112,6 +143,49 @@ function mostrarLabel(texto) {
     label.classList.add('visible');
 }
 
+async function animarBusqueda(valor, texto) {
+    const camino = [];
+    let nodo = arbol.raiz;
+
+    while (nodo) {
+        camino.push(nodo.valor);
+        if (valor === nodo.valor) break;
+        nodo = valor < nodo.valor ? nodo.Izquierdo : nodo.Derecho;
+    }
+
+    if (camino.length > 0) {
+        await highlightSequence(camino, 'nodo-search', texto);
+    }
+}
+
+function mostrarResultadoRecorrido(tipo, orden) {
+    const resultadoEl = document.getElementById('recorrido-result');
+    if (!resultadoEl) return;
+    const nombre = tipo === 'inorden'
+        ? 'Inorden'
+        : tipo === 'preorden'
+            ? 'Preorden'
+            : 'Postorden';
+    resultadoEl.textContent = `${nombre} → ${orden.join(', ')}`;
+}
+
+function ejecutarRecorrido(tipo) {
+    if (isAnimating) return;
+    if (!arbol.raiz) {
+        mostrarResultadoRecorrido(tipo, []);
+        return;
+    }
+
+    let orden = [];
+    if (tipo === 'inorden')   orden = inorden(arbol.raiz);
+    if (tipo === 'preorden')  orden = preorden(arbol.raiz);
+    if (tipo === 'postorden') orden = postorden(arbol.raiz);
+
+    mostrarResultadoRecorrido(tipo, orden);
+    encolar('recorrido', { orden });
+    ejecutarCola();
+}
+
 function ocultarLabel() {
     const label = document.getElementById('anim-label');
     if (label) label.classList.remove('visible');
@@ -141,16 +215,4 @@ function postorden(nodo, resultado = []) {
     postorden(nodo.Derecho, resultado);
     resultado.push(nodo.valor);
     return resultado;
-}
-
-function ejecutarRecorrido(tipo) {
-    if (!arbol.raiz) return;
-
-    let orden = [];
-    if (tipo === 'inorden')   orden = inorden(arbol.raiz);
-    if (tipo === 'preorden')  orden = preorden(arbol.raiz);
-    if (tipo === 'postorden') orden = postorden(arbol.raiz);
-
-    encolar('recorrido', { orden });
-    ejecutarCola();
 }

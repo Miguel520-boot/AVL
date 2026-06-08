@@ -86,3 +86,50 @@ AVL.prototype.insertar = function(nodo, valor) {
 
     return nodo;
 }
+
+AVL.prototype.minValueNode = function(nodo) {
+    let actual = nodo;
+    while (actual.Izquierdo) actual = actual.Izquierdo;
+    return actual;
+}
+
+AVL.prototype.eliminar = function(nodo, valor) {
+    if (!nodo) return nodo;
+
+    if (valor < nodo.valor)
+        nodo.Izquierdo = this.eliminar(nodo.Izquierdo, valor);
+    else if (valor > nodo.valor)
+        nodo.Derecho = this.eliminar(nodo.Derecho, valor);
+    else {
+        if (!nodo.Izquierdo || !nodo.Derecho) {
+            nodo = nodo.Izquierdo || nodo.Derecho;
+        } else {
+            const sucesor = this.minValueNode(nodo.Derecho);
+            nodo.valor = sucesor.valor;
+            nodo.Derecho = this.eliminar(nodo.Derecho, sucesor.valor);
+        }
+    }
+
+    if (!nodo) return nodo;
+
+    this.actualizarAltura(nodo);
+    const b = this.balance(nodo);
+
+    if (b > 1 && this.balance(nodo.Izquierdo) >= 0)
+        return this.rotarDerecha(nodo);
+
+    if (b > 1 && this.balance(nodo.Izquierdo) < 0) {
+        nodo.Izquierdo = this.rotarIzquierda(nodo.Izquierdo);
+        return this.rotarDerecha(nodo);
+    }
+
+    if (b < -1 && this.balance(nodo.Derecho) <= 0)
+        return this.rotarIzquierda(nodo);
+
+    if (b < -1 && this.balance(nodo.Derecho) > 0) {
+        nodo.Derecho = this.rotarDerecha(nodo.Derecho);
+        return this.rotarIzquierda(nodo);
+    }
+
+    return nodo;
+}

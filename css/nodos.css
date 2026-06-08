@@ -45,6 +45,54 @@
     pointer-events: none;
 }
 
+.nodo-nuevo circle {
+    fill: #26A69A !important;
+    stroke: #00BCD4 !important;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 10px rgba(38, 166, 154, 0.7));
+}
+
+.nodo-search circle {
+    fill: rgba(0, 188, 212, 0.18) !important;
+    stroke: #00BCD4 !important;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 12px rgba(0, 188, 212, 0.8));
+}
+
+.nodo-recorrido circle {
+    fill: rgba(0, 188, 212, 0.12) !important;
+    stroke: #26A69A !important;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 10px rgba(0, 188, 212, 0.7));
+}
+
+.nodo-eliminar circle {
+    fill: #E53935 !important;
+    stroke: #FF8A80 !important;
+    stroke-width: 2.5;
+    filter: drop-shadow(0 0 9px rgba(229, 57, 53, 0.7));
+}
+
+#anim-label {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(0, 188, 212, 0.16);
+    color: #E6EDF3;
+    font-size: 0.85rem;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+#anim-label.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .info-bar {
     font-family: 'DM Sans', Helvetica, sans-serif;
     font-size: 0.8rem;

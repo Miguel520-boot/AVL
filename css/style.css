@@ -149,6 +149,93 @@ body::before {
     animation: fadeUp 0.8s 0.3s ease both;
 }
 
+.control-group {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 12px 0;
+    align-items: center;
+}
+
+.control-group input[type="number"] {
+    flex: 1;
+    min-width: 120px;
+    padding: 0.75rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg-input);
+    color: var(--text-primary);
+}
+
+.recorridos-panel {
+    background: rgba(17, 38, 65, 0.95);
+    border: 1px solid rgba(0, 188, 212, 0.16);
+    border-radius: 16px;
+    padding: 1rem;
+    margin-bottom: 12px;
+}
+
+.recorridos-panel h2 {
+    margin: 0 0 0.6rem 0;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #B7E3FF;
+}
+
+.recorrido-result {
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    background: rgba(0, 188, 212, 0.08);
+    border: 1px solid rgba(0, 188, 212, 0.18);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
+.control-group button {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    background: var(--cyan);
+    color: #0d1117;
+    cursor: pointer;
+    transition: transform 0.15s ease, opacity 0.15s ease, background 0.15s ease;
+}
+
+.control-group button:hover {
+    transform: translateY(-1px);
+    opacity: 0.95;
+}
+
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 12px 0;
+}
+
+.speed-control label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.speed-control input[type="range"] {
+    flex: 1;
+}
+
+.speed-control span {
+    min-width: 50px;
+    text-align: right;
+    color: var(--cyan);
+    font-weight: 600;
+}
+
 .btn {
     display: inline-flex;
     align-items: center;
