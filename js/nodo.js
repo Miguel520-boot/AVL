@@ -44,7 +44,7 @@ class AVL {
         document.getElementById("numero").value
     );
 
-    if (isNaN(dato)) {
+    if (isNaN(dato) || dato == 0) {
         alert("Por favor ingresa un número válido.");
         return;
     }
