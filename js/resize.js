@@ -1,3 +1,4 @@
+// Ajusta el tamaño del contenedor del árbol cuando cambia el tamaño de la ventana.
 function ajustarCanvas() {
     const canvas = document.getElementById("tree-canvas");
     const section = canvas.parentElement;
@@ -9,5 +10,6 @@ function ajustarCanvas() {
     canvas.style.height = alturaDisponible + "px";
 }
 
+// Reajusta el canvas al redimensionar la ventana.
 window.addEventListener("resize", ajustarCanvas);
 ajustarCanvas();

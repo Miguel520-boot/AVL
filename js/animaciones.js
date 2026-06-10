@@ -1,9 +1,11 @@
+// ── Configuración de animación ──────────────────────────────────────────
 const BASE_ANIM_DURATION = 400;
 let ANIM_DURATION = BASE_ANIM_DURATION;
 let animQueue = [];
 let isAnimating = false;
 let currentSpeed = 1;
 
+// Ajusta el tiempo de animación según la velocidad seleccionada.
 function setSpeed(value) {
     currentSpeed = value;
     ANIM_DURATION = BASE_ANIM_DURATION / Math.max(value, 0.25);
@@ -11,6 +13,7 @@ function setSpeed(value) {
     if (speedValue) speedValue.textContent = `${value.toFixed(2)}x`;
 }
 
+// Configura el control deslizante de velocidad.
 const speedSlider = document.getElementById('speed-slider');
 if (speedSlider) {
     speedSlider.addEventListener('input', e => {
@@ -20,6 +23,7 @@ if (speedSlider) {
 
 setSpeed(1);
 
+// ── Control de botones y campos mientras se ejecutan animaciones ──
 function disableControls() {
     document.querySelectorAll('.control-group button, #numero, #numero-eliminar').forEach(el => {
         if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
@@ -36,6 +40,7 @@ function enableControls() {
     });
 }
 
+// ── Cola de animaciones ──────────────────────────────────────────
 function encolar(tipo, datos) {
     animQueue.push({ tipo, datos });
 }
@@ -64,6 +69,7 @@ async function ejecutarAnimacion(tipo, datos) {
     }
 }
 
+// Resalta una secuencia de nodos uno por uno y muestra un label opcional.
 async function highlightSequence(valores, clase, label) {
     if (label) mostrarLabel(label);
     for (const valor of valores) {
@@ -75,6 +81,7 @@ async function highlightSequence(valores, clase, label) {
     if (label) ocultarLabel();
 }
 
+// ── Animaciones específicas ────────────────────────────────────────
 async function animInsertar(datos) {
     const { valor } = datos;
     resaltarNodo(valor, 'nodo-nuevo');
@@ -105,7 +112,6 @@ async function animRecorrido(datos) {
 }
 
 // ── Helpers ──────────────────────────────────────────────
-
 function esperar(ms) {
     return new Promise(r => setTimeout(r, ms));
 }
@@ -143,6 +149,7 @@ function mostrarLabel(texto) {
     label.classList.add('visible');
 }
 
+// Realiza una animación de búsqueda en el árbol mostrando cada nodo del camino.
 async function animarBusqueda(valor, texto) {
     const camino = [];
     let nodo = arbol.raiz;
@@ -158,6 +165,7 @@ async function animarBusqueda(valor, texto) {
     }
 }
 
+// Actualiza el texto del resultado del recorrido en pantalla.
 function mostrarResultadoRecorrido(tipo, orden) {
     const resultadoEl = document.getElementById('recorrido-result');
     if (!resultadoEl) return;
@@ -169,6 +177,7 @@ function mostrarResultadoRecorrido(tipo, orden) {
     resultadoEl.textContent = `${nombre} → ${orden.join(', ')}`;
 }
 
+// Ejecuta un recorrido del árbol y encola la animación asociada.
 function ejecutarRecorrido(tipo) {
     if (isAnimating) return;
     if (!arbol.raiz) {
@@ -191,8 +200,7 @@ function ocultarLabel() {
     if (label) label.classList.remove('visible');
 }
 
-// ── Recorridos ───────────────────────────────────────────
-
+// ── Recorridos de árbol ───────────────────────────────────────────
 function inorden(nodo, resultado = []) {
     if (!nodo) return resultado;
     inorden(nodo.Izquierdo, resultado);

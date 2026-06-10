@@ -1,3 +1,4 @@
+/* ── Variables globales de diseño ───────────────────────────────── */
 :root {
     --bg-base:       #0D1117;
     --bg-surface:    #161B22;
@@ -17,62 +18,57 @@
     --font-sans:  'DM Sans', Helvetica, sans-serif;
 }
 
+/* ── Reset básico de estilos ────────────────────────────────────── */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    
 }
 
+/* ── Estilos de la página principal ─────────────────────────────── */
 body {
-    /*background-color: var(--bg-base);*/
     color: var(--text-primary);
     font-family: var(--font-sans);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-
     width: 100vw;
-  height: 100vh;
-  background-color: #121824; /* Color oscuro del fondo Neo-Cyber */
-  
-  /* El truco clave: Un espacio uniforme alrededor de 20px */
-  padding: 20px; 
-  padding: 20px 20px 0 20px;
-  
-  
+    height: 100vh;
+    background-color: #121824;
+    padding: 20px 20px 0 20px;
 }
 
-/* Layout del artículo con dos secciones de colores distintos */
+/* Contenedor principal con panel de controles y área del árbol. */
 article {
     flex: 1;
-    display: flex; /* Coloca los dos sections uno junto al otro */
-    min-height: 0; /* Permite que el contenido se ajuste dentro del flex container */
+    display: flex;
+    min-height: 0;
     background-color: #1a2333;
-    border: 1px solid #00BCD4; /* Borde principal del article con el color solicitado */
+    border: 1px solid #00BCD4;
     border-radius: 8px;
-    overflow: hidden; /* Evita que las esquinas de los sections salgan del contenedor */
+    overflow: hidden;
 }
 
 article > section {
-    min-height: 0; /* Previene overflow inesperado en flex children */
+    min-height: 0;
     padding: 2rem;
 }
 
+/* Panel izquierdo fijo para controles. */
 article > section:first-child {
-    width: 320px; /* Panel izquierdo fijo */
-    background-color: #162940; /* Color diferente para la primera sección */
+    width: 320px;
+    background-color: #162940;
     border-right: 1px solid #00BCD4;
     border-left: 1px solid #00BCD4;
 }
 
+/* Panel derecho flexible para mostrar el árbol. */
 article > section:last-child {
-    flex: 1; /* La segunda sección ocupa el espacio restante */
-    background-color: #293a5d; /* Color diferente para la segunda sección */
+    flex: 1;
+    background-color: #293a5d;
 }
 
-
-/* ── Grid de fondo ── */
+/* ── Grid de fondo decorativo ─────────────────────────────────── */
 body::before {
     content: '';
     position: fixed;
@@ -86,69 +82,7 @@ body::before {
     z-index: 0;
 }
 
-/* ── Hero ── */
-.container-mom {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    flex: 1;
-    gap: 2rem;
-    padding: 3rem 1.5rem;
-    text-align: center;
-}
-
-/* Halo de luz detrás del título */
-.container-mom::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -60%);
-    width: 480px;
-    height: 280px;
-    background: radial-gradient(ellipse, rgba(0,188,212,0.10) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: -1;
-}
-
-/* ── Título ── */
-.hero-title {
-    font-family: var(--font-serif);
-    font-size: clamp(3rem, 8vw, 6.5rem);
-    font-weight: 400;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
-    animation: fadeUp 0.8s ease both;
-}
-
-.hero-title span {
-    color: var(--cyan);
-}
-
-/* ── Subtítulo ── */
-.hero-subtitle {
-    font-family: var(--font-sans);
-    font-size: clamp(1rem, 2.5vw, 1.2rem);
-    font-weight: 300;
-    color: var(--text-secondary);
-    max-width: 480px;
-    line-height: 1.7;
-    animation: fadeUp 0.8s 0.15s ease both;
-}
-
-/* ── Botones ── */
-.hero-actions {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    justify-content: center;
-    animation: fadeUp 0.8s 0.3s ease both;
-}
-
+/* ── Estilos de controles y paneles ─────────────────────────────── */
 .control-group {
     display: flex;
     gap: 10px;
@@ -264,7 +198,7 @@ body::before {
 }
 .btn-secondary:hover { border-color: var(--cyan); color: var(--cyan); }
 
-/* ── Indicadores de estado (decorativos) ── */
+/* ── Badges y estado decorativo ────────────────────────────────── */
 .status-badges {
     display: flex;
     gap: 10px;
@@ -294,7 +228,7 @@ body::before {
     background: currentColor;
 }
 
-/* ── Footer ── */
+/* ── Footer oculto por diseño actual ───────────────────────────── */
 footer {
     position: relative;
     z-index: 1;
@@ -307,23 +241,13 @@ footer {
     font-weight: 300;
 }
 
-/* ── Animaciones ── */
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
+/* Este footer se oculta para el diseño actual de la página. */
 footer {
     display: none;
 }
 
-article {
-    flex: 1;
-    display: flex;
-    min-height: 0;
-    background-color: #1a2333;
-    border: 1px solid #00BCD4;
-    border-radius: 8px;
-    overflow: hidden;
-    height: 100%; /* 👈 */
+/* ── Animaciones globales ──────────────────────────────────────── */
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
 }

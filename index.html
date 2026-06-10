@@ -3,27 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Fuentes externas usadas en el sitio -->
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+    <!-- Estilos generales y específicos del árbol -->
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/nodos.css">
     <title>BalanceTree</title>
 </head>
 <body>
 
+    <!-- Contenedor principal con panel de controles a la izquierda y área del árbol a la derecha -->
     <article>
         <section>
             <h1>BalanceTree</h1>
+
+            <!-- Control para insertar un nuevo número en el árbol AVL -->
             <div class="control-group">
                 <input type="number" id="numero" placeholder="Número a insertar">
                 <button onclick="arbol.agregarNodo()">Insertar</button>
             </div>
 
+            <!-- Botones para mostrar recorridos del árbol -->
             <div class="control-group">
                 <button onclick="ejecutarRecorrido('inorden')">Inorden</button>
                 <button onclick="ejecutarRecorrido('preorden')">Preorden</button>
                 <button onclick="ejecutarRecorrido('postorden')">Postorden</button>
             </div>
 
+            <!-- Panel que muestra el resultado del recorrido seleccionado -->
             <div class="recorridos-panel">
                 <h2>Recorridos</h2>
                 <div class="recorrido-result">
@@ -31,23 +38,27 @@
                 </div>
             </div>
 
+            <!-- Control para eliminar un nodo existente -->
             <div class="control-group">
                 <input type="number" id="numero-eliminar" placeholder="Número a eliminar">
                 <button onclick="arbol.eliminarNodo()">Eliminar</button>
             </div>
 
+            <!-- Control deslizante para ajustar la velocidad de animación -->
             <div class="speed-control">
                 <label for="speed-slider">Velocidad:</label>
                 <input type="range" id="speed-slider" min="0.25" max="2" step="0.25" value="1">
                 <span id="speed-value">1.0x</span>
             </div>
 
+            <!-- Barra inferior con información del árbol -->
             <div class="info-bar">
                 <span>Nodos: <b id="count">0</b></span>
                 <span>Altura: <b id="tree-height">—</b></span>
             </div>
         </section>
 
+        <!-- Área del lienzo donde se renderiza el árbol SVG -->
         <section style="display:flex; flex-direction:column; padding:1rem; overflow:hidden;">
             <div id="tree-canvas">
                 <span id="empty-msg">Agrega un número para comenzar</span>
@@ -60,6 +71,7 @@
         <p>Copyright © 2024 BalanceTree. All rights reserved.</p>
     </footer>
 
+    <!-- Scripts de la aplicación: lógica del árbol, renderizado, rotaciones y animaciones -->
     <script src="js/nodo.js"></script>
     <script src="js/render.js"></script>
     <script src="js/rotacion.js"></script>

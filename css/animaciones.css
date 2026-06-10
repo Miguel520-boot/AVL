@@ -1,4 +1,4 @@
-/* ── Nodo nuevo ── */
+/* Animación visual para nodos recién insertados. */
 .nodo-nuevo circle {
     stroke: #26A69A !important;
     stroke-width: 2.5 !important;
@@ -11,7 +11,7 @@
     to   { stroke-width: 3.5px; fill: #1a4f4b; }
 }
 
-/* ── Nodo en rotación ── */
+/* Estilo de nodo mientras ocurre una rotación. */
 .nodo-rotacion circle {
     stroke: #E53935 !important;
     stroke-width: 2.5 !important;
@@ -24,7 +24,7 @@
     to   { stroke-width: 3.5px; fill: #5c1a1a; }
 }
 
-/* ── Nodo en recorrido ── */
+/* Estilo de nodo en un recorrido activo. */
 .nodo-recorrido circle {
     stroke: #FFD600 !important;
     stroke-width: 2.5 !important;
@@ -37,7 +37,7 @@
     to   { stroke-width: 3.5px; fill: #5c4a00; }
 }
 
-/* ── Label de rotación ── */
+/* Estilo del label flotante que muestra la descripción de la animación. */
 #anim-label {
     position: absolute;
     top: 12px;
@@ -60,7 +60,7 @@
     opacity: 1;
 }
 
-/* ── Entrada del nodo ── */
+/* Animación de entrada para todos los nodos al renderizar el árbol. */
 .nodo {
     animation: entradaNodo 0.3s ease both;
 }
